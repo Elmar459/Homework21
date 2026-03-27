@@ -1,5 +1,15 @@
 public class UserService{
 
+    public class User{
+        public String firstname;
+        public String lastname;
+        public String phone;
+    }
+
+    public class UsersResponse {
+        public List<User> users;
+    }
+
     public static HttpResponse makeGetCallout() {
 
         Http http = new Http();
@@ -10,17 +20,29 @@ public class UserService{
 
         HttpResponse response = http.send(request);
 
-        if (response.getStatusCode()==200) {
-            Map<String, Object> results =
-            (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+        if (response.getStatusCode() == 200) {
 
-        List<Object> users = (List<Object>) results.get('Users');
-            System.debug('Received the following users:');
+                        Map<String, Object> results =
+                (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
 
-        for (Object user : users) {
-            System.debug(user);
-        }
+            
+            List<Object> usersRaw = (List<Object>) results.get('users');
+
+            System.debug('Untyped parsing');
+            for (Object u : usersRaw) {
+                System.debug(u);
+            }
+
+            UsersResponse typedResult =
+                (UsersResponse) JSON.deserialize(response.getBody(), UsersResponse.class);
+
+            System.debug('Typed parsing');
+
+            for (User u : typedResult.users) {
+                System.debug(u.firstname + ' ' + u.lastname);
+            }
         }        
+
         return response;
     }
     
@@ -31,16 +53,18 @@ public class UserService{
         request.setEndpoint('https://super-api.com/users/');
         request.setMethod('POST');
         request.setHeader('Content-Type', 'application/json;charset=UTF-8');
-        request.setBody('{"name:" "Thomas Conlin"}');
+        request.setBody('{"name":"Thomas Conlin"}');
+
         HttpResponse response = http.send(request);
 
-        if(response.getStatusCode() !=201) {
+        if(response.getStatusCode() != 201) {
             System.debug('The status code returned was not expected: ' 
             + response.getStatusCode() + ' ' 
             + response.getStatus());
-        }else {
+        } else {
             System.debug(response.getBody());
         }
+
         return response;
     }
 
