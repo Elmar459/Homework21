@@ -7,7 +7,7 @@ private class UserServiceTest {
         mock.setStatusCode(200);
         mock.setHeader('Content-Type', 'application/json;charset=UTF-8');
         
-        System.Test.setMock(HttpCalloutMock.class, mock);
+        Test.setMock(HttpCalloutMock.class, new UserServiceMock());
        
         HttpResponse result = UserService.makeGetCallout();
         
