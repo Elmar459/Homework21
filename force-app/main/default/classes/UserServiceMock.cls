@@ -6,7 +6,7 @@ global class UserServiceMock implements HttpCalloutMock {
             HttpResponse response = new HttpResponse();
 
             response.setHeader('Content-Type', 'application/json');
-            response.setBody('{"users", ["Thomas Conlin", "Elmar Sharifzade", "Emin Huseynov"]}');
+            response.setBody('{{"users":[{"firstname":"Elmar","lastname":"Sharifzade","phone":"+994559340091"}]}');
             response.setStatusCode(200);
             return response;
     }

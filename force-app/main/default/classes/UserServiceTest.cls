@@ -21,7 +21,7 @@ private class UserServiceTest {
         
         Map<String, Object> results = (Map<String, Object>)
             JSON.deserializeUntyped(result.getBody());
-        List<Object> animals = (List<Object>) results.get('animals');
-        Assert.areEqual(3, animals.size(), 'The array should only contain 3 items.');
+        List<Object> users = (List<Object>) results.get('users');
+        Assert.areEqual(3, users.size(), 'The array should only contain 3 items.');
     }
 }
